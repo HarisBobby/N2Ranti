@@ -1,13 +1,30 @@
-const V='n2-v2';
-const FILES=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-192.png','icon-maskable-512.png'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
-self.addEventListener('fetch',e=>{
-  const r=e.request,u=new URL(r.url);
-  if(r.method!=='GET'||u.origin!==location.origin)return;
-  e.respondWith(caches.open(V).then(async c=>{
-    const hit=await c.match(r,{ignoreSearch:true});
-    const net=fetch(r).then(res=>{if(res.ok)c.put(r,res.clone());return res}).catch(()=>null);
-    return hit||(await net)||(r.mode==='navigate'?c.match('index.html'):Response.error());
-  }));
+const CACHE = 'pbj-n2-v1';
+const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys()
+      .then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+// Network first (selalu ambil versi terbaru kalau online), cache sebagai cadangan offline
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    fetch(e.request)
+      .then(r => {
+        if (r && r.ok && new URL(e.request.url).origin === location.origin) {
+          const copy = r.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy));
+        }
+        return r;
+      })
+      .catch(() => caches.match(e.request).then(m => m || caches.match('./index.html')))
+  );
 });
