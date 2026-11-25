@@ -1,18 +1,42 @@
 {
-  "name": "日本語の扉 · Bunpou & Kanji N2",
-  "short_name": "日本語の扉 N2",
-  "description": "Pintu Bahasa Jepang: belajar Bunpou, Kanji, dan Kosakata JLPT N2.",
-  "id": "./",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait",
-  "lang": "id",
-  "background_color": "#f4eddb",
-  "theme_color": "#0b2a63",
-  "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
+ "name": "日本語の扉 N2",
+ "short_name": "日本語N2",
+ "description": "Belajar Bunpou, Kanji, dan Kosakata JLPT N2",
+ "lang": "id",
+ "start_url": "./index.html",
+ "scope": "./",
+ "display": "standalone",
+ "display_override": [
+  "fullscreen",
+  "standalone"
+ ],
+ "orientation": "portrait",
+ "background_color": "#f5eedc",
+ "theme_color": "#0b2a63",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-maskable-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "maskable"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
 }
